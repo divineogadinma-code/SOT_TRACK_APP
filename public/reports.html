@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOT Track - Advanced Reports</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%231f1f1f'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='40' font-weight='bold' fill='%234CAF50' font-family='sans-serif'>SOT</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- ADDED: The Chart.js Date Adapter to fix the graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ADDED: Placeholders for the UI helper script -->
+    <div id="loader-overlay" class="loader-overlay"></div>
+    <div id="toast-container" class="toast-container"></div>
+
+    <div id="sidebar-container"></div>
+
+    <main class="with-nav">
+        <header>
+            <h1>Advanced Reports</h1>
+        </header>
+        <div class="container-fluid pt-4">
+            <p class="text-center text-body-secondary">Analytics and insights into worker activities.</p>
+
+            <div class="row">
+                <!-- Task Frequency Chart -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card worker-card h-100">
+                        <h3 class="card-header">Task Frequency</h3>
+                        <div class="card-body">
+                            <canvas id="task-frequency-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Point Distribution Chart -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card worker-card h-100">
+                        <h3 class="card-header">Point Distribution by Task</h3>
+                        <div class="card-body">
+                            <canvas id="point-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADD THIS NEW CARD -->
+<div class="card worker-card mt-4">
+    <h3 class="card-header">Point System Management</h3>
+    <div class="card-body text-center">
+        <p>Access the advanced calculator to award points for egg collection, bonuses, and monthly conversions.</p>
+        <a href="/point-system.html" class="btn btn-secondary">
+            <i class="bi bi-gear-wide-connected me-2"></i>Go to Point System
+        </a>
+    </div>
+</div>
+
+
+            <!-- Data Export Section -->
+            <div class="card worker-card mt-4">
+                <h3 class="card-header">Data Export</h3>
+                <div class="card-body text-center">
+                    <p>Download a complete history of all logged tasks for external analysis.</p>
+                    <button id="export-csv-btn" class="btn btn-primary">
+                        <i class="bi bi-download me-2"></i>Export All Tasks as CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="bottom-nav-container"></div>
+    
+    <!-- Correct script order -->
+    <script src="ui.js"></script>
+    <script src="reports.js"></script>
+    <script src="nav.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js').then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
+</script>
+</body>
+</html>

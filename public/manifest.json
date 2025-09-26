@@ -1,0 +1,21 @@
+{
+    "name": "SOT Track",
+    "short_name": "SOT Track",
+    "description": "Performance and Activity Management System for DSU Glorious Farm.",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#121212",
+    "theme_color": "#1f1f1f",
+    "icons": [
+        {
+            "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='15%25' fill='%231f1f1f'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='200' font-weight='bold' fill='%234CAF50' font-family='sans-serif'%3ESOT%3C/text%3E%3C/svg%3E",
+            "type": "image/svg+xml",
+            "sizes": "512x512"
+        },
+        {
+            "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='15%25' fill='%231f1f1f'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='75' font-weight='bold' fill='%234CAF50' font-family='sans-serif'%3ESOT%3C/text%3E%3C/svg%3E",
+            "type": "image/svg+xml",
+            "sizes": "192x192"
+        }
+    ]
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOT Track - Point System</title>
+    
+    <!-- PWA, Favicon, Stylesheets & Libraries -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1f1f1f">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231f1f1f'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='40' font-weight='bold' fill='%234CAF50' font-family='sans-serif'%3ESOT%3C/text%3E%3C/svg%3E">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- UI Placeholders -->
+    <div id="sidebar-container"></div>
+    <div id="loader-overlay" class="loader-overlay"></div>
+    <div id="toast-container" class="toast-container"></div>
+
+    <main class="with-nav">
+        <div class="container-fluid pt-4">
+            <header class="py-3 mb-4">
+                <h1 class="display-5 fw-bold">SOT Points & Bonus System</h1>
+                <p class="text-body-secondary">Calculate and award points based on organizational rules.</p>
+            </header>
+
+            <!-- Section 1: Egg Collection Calculator -->
+            <div class="card digital-card mb-5">
+                <h3 class="card-header"><i class="bi bi-egg-fried me-2"></i>Egg Collection Calculator</h3>
+                <div class="card-body">
+                    <form id="egg-collection-form" class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label for="total-crates" class="form-label">Total Crates from Set</label>
+                            <input type="number" id="total-crates" class="form-control" placeholder="e.g., 30" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Points per Crate</label>
+                            <input type="text" id="points-per-crate" class="form-control" readonly disabled>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="worker-crates" class="form-label">Worker's Crates Collected</label>
+                            <input type="number" id="worker-crates" class="form-control" placeholder="e.g., 25" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="egg-worker-select" class="form-label">Select Worker</label>
+                            <select id="egg-worker-select" class="form-select" required></select>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Award Egg Collection Points</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Section 2: Bonus System -->
+            <div class="card digital-card mb-5">
+                <h3 class="card-header"><i class="bi bi-star-fill me-2"></i>Bonus System</h3>
+                <div class="card-body">
+                    <form id="bonus-form" class="row g-3 align-items-end">
+                        <div class="col-md-6">
+                            <label for="bonus-worker-select" class="form-label">Select Worker</label>
+                            <select id="bonus-worker-select" class="form-select" required></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="bonus-type-select" class="form-label">Select Bonus</label>
+                            <select id="bonus-type-select" class="form-select" required>
+                                <option value="" disabled selected>Choose a bonus...</option>
+                                <option value="Perfect Attendance">Perfect Attendance</option>
+                                <option value="Innovation & Suggestion">Innovation & Suggestion</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Award Bonus</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Section 3: Monthly Point Conversion -->
+            <div class="card digital-card">
+                <h3 class="card-header"><i class="bi bi-calculator-fill me-2"></i>Monthly Point Conversion</h3>
+                <div class="card-body">
+                    <form id="conversion-form" class="row g-3 align-items-end">
+                        <div class="col-md-4">
+                            <label for="conversion-worker-select" class="form-label">Select Worker</label>
+                            <select id="conversion-worker-select" class="form-select" required></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="month-select" class="form-label">Select Month</label>
+                            <input type="month" id="month-select" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-info w-100">Calculate Earnings</button>
+                        </div>
+                    </form>
+                    <div id="conversion-result" class="mt-4 text-center d-none">
+                        <h4 id="result-text"></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="bottom-nav-container"></div>
+    
+    <!-- Scripts -->
+    <script src="ui.js"></script>
+    <script src="point-system.js"></script>
+    <script src="nav.js"></script>
+    <script src="ws-client.js"></script>
+</body>
+</html>

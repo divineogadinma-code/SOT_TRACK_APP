@@ -1,0 +1,873 @@
+/* General Body Styles */
+body {
+    background-color: #121212; /* A dark, almost black background */
+    color: #e0e0e0; /* A light grey for text, easy on the eyes */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; /* Modern, clean font */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    box-sizing: border-box; /* Add this line */
+}
+
+/* Add this to ensure all elements respect the box-sizing */
+*,
+*::before,
+*::after {
+    box-sizing: inherit; /* Inherit box-sizing from body */
+}
+
+/* Header Styling */
+header {
+    background-color: #1f1f1f; /* A slightly lighter dark shade for contrast */
+    padding: 20px 15px;
+    border-bottom: 2px solid #4CAF50; /* Green accent line */
+    text-align: center;
+}
+
+h1 {
+    color: #4CAF50; /* Using green as the main accent color */
+    margin: 0;
+}
+
+/* Main Content Area */
+main {
+    flex-grow: 1; /* Ensures the main content takes up available space */
+    padding: 30px 15px;
+    text-align: center;
+}
+
+h2 {
+    color: #ffffff; /* Pure white for important subheadings */
+}
+
+/* Styling the points display */
+p {
+    font-size: 1.2em; /* Slightly larger text for readability */
+}
+
+strong {
+    color: #4CAF50; /* Green accent for the points */
+    font-size: 1.5em; /* Make the points number stand out */
+    font-weight: 700;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #1f1f1f;
+    padding: 15px;
+    font-size: 0.9em;
+    color: #888;
+    border-top: 1px solid #333; /* Subtle top border */
+}
+/* Button Styling */
+.button-container {
+    margin-top: 30px;
+}
+
+button {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer; /* Changes cursor to a pointer on hover */
+    margin: 0 10px;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+button:hover {
+    background-color: #45a049; /* A slightly darker green on hover */
+}
+
+#deductPointsBtn {
+    background-color: #f44336; /* Red for the penalty button */
+}
+
+#deductPointsBtn:hover {
+    background-color: #da190b; /* Darker red on hover */
+}
+/* Admin Table Styles */
+table {
+    width: 80%;
+    margin: 30px auto;
+    border-collapse: collapse; /* Removes space between borders */
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #333; /* A subtle line between rows */
+}
+
+thead {
+    background-color: #1f1f1f; /* Dark header for the table */
+}
+
+th {
+    color: #4CAF50; /* Green accent for table headers */
+    font-size: 1.1em;
+}
+/* --- New Admin Panel Styles --- */
+
+.chart-container {
+    width: 80%;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.table-container {
+    overflow-x: auto; /* For responsiveness on small screens */
+}
+
+/* Form elements in table */
+.task-select, .points-input {
+    width: 100%;
+    padding: 8px;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 4px;
+}
+
+.points-input::placeholder {
+    color: #888;
+}
+
+.log-task-btn {
+    background-color: #007bff; /* A nice blue for the action button */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between icon and text */
+}
+
+.log-task-btn:hover {
+    background-color: #0056b3;
+}
+
+.points-cell {
+    font-weight: bold;
+    color: #4CAF50; /* Green accent for points */
+}
+/* --- New Auth Page Styles --- */
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #aaa;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 4px;
+    color: #e0e0e0;
+    font-size: 1em;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.auth-btn:hover {
+    background-color: #45a049;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-switch a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.error-text {
+    color: #f44336;
+    text-align: center;
+    margin-top: 15px;
+    height: 1em;
+}
+/* --- New Futuristic Auth Design --- */
+
+.logo-circle {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(14,31,47,1) 0%, rgba(18,25,33,1) 100%);
+    border-radius: 50%;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4CAF50;
+    border: 3px solid rgba(76, 175, 80, 0.5);
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.5), inset 0 0 15px rgba(76, 175, 80, 0.3);
+    animation: pulse-glow 4s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 15px rgba(76, 175, 80, 0.5), inset 0 0 15px rgba(76, 175, 80, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(76, 175, 80, 0.8), inset 0 0 20px rgba(76, 175, 80, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(76, 175, 80, 0.5), inset 0 0 15px rgba(76, 175, 80, 0.3);
+    }
+}
+
+
+/* Styling for Bootstrap Input Groups */
+.input-group-text {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #4CAF50;
+}
+
+.form-control:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+/* Worker Card Hover Effect */
+.worker-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 2rem;
+}
+.worker-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 255, 100, 0.2);
+}
+
+/* Input Wrapper */
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    transition: border 0.3s, box-shadow 0.3s;
+      margin-bottom: 1rem;
+}
+.input-wrapper i {
+    color: #aaa;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+.input-wrapper input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #f1f1f1;
+    width: 100%;
+    font-size: 0.95rem;
+}
+.input-wrapper:focus-within {
+    border-color: #28a745;
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.4);
+}
+.input-wrapper input::placeholder {
+    color: #777;
+}
+
+/* Button Styling */
+.btn-success {
+    background: linear-gradient(135deg, #28a745, #218838);
+    border: none;
+}
+.btn-success:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+}
+/* --- RESPONSIVE NAVIGATION STYLES --- */
+
+/* Main content area needs padding to not be hidden by the nav bars */
+main.with-nav {
+    
+    padding-bottom: 80px; /* Mobile: Space for the bottom bar */
+}
+
+/* --- Desktop Sidebar (Visible on screens > 768px) --- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #1f1f1f;
+    border-right: 1px solid #333;
+    padding: 1.5rem;
+    display: none; /* Hidden by default */
+    /* THIS IS THE FIX: Make the sidebar a flex container */
+    flex-direction: column;
+}
+
+.sidebar .nav-link {
+    color: #888;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    border-radius: .375rem;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar .nav-link i {
+    margin-right: 1rem;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #2a2a2e;
+    color: #e0e0e0;
+}
+
+.sidebar .nav-link.active {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+/* CORRECTED: Logout button styles */
+.sidebar .logout-btn {
+    margin-top: auto; /* Pushes the logout button to the bottom */
+}
+
+
+/* --- Mobile Bottom Nav Bar (Visible on screens < 768px) --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background-color: #1f1f1f;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+}
+
+.bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #888;
+    text-decoration: none;
+    flex-grow: 1;
+}
+
+.bottom-nav .nav-item i {
+    font-size: 1.5rem;
+}
+
+.bottom-nav .nav-item span {
+    font-size: 0.7rem;
+}
+
+.bottom-nav .nav-item.active {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* Special style for the central dashboard button */
+.bottom-nav .nav-item.dashboard-link {
+    transform: translateY(-20px);
+}
+
+.bottom-nav .nav-item.dashboard-link .icon-wrapper {
+    width: 60px;
+    height: 60px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border: 4px solid #121212;
+}
+
+.bottom-nav .nav-item.dashboard-link.active .icon-wrapper {
+    box-shadow: 0 0 15px #4CAF50;
+}
+
+
+/* --- Media Queries to switch between navs --- */
+@media (min-width: 768px) {
+    main.with-nav {
+        padding-left: 280px; /* <-- ADD THE LINE HERE */
+    }
+    .sidebar {
+        display: flex; /* Changed from block to flex */
+    }
+    .bottom-nav {
+        display: none;
+    }
+}
+
+/* --- PROFILE PICTURE STYLES --- */
+.profile-picture-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    flex-shrink: 0; /* Prevents shrinking in flex layout */
+}
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #333;
+}
+.profile-picture-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+.profile-picture-container:hover .profile-picture-overlay {
+    opacity: 1;
+}
+.profile-picture-overlay i {
+    font-size: 2rem;
+}
+/* --- UI/UX POLISH STYLES --- */
+
+/* --- Loading Spinner Overlay --- */
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loader-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #4CAF50;
+}
+
+/* --- Toast Notification Container --- */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    width: 350px;
+    max-width: 100%;
+    font-size: 0.9rem;
+    background-color: #1f1f1f;
+    color: #e0e0e0;
+    border: 1px solid #333;
+    border-radius: .375rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.4s ease-in-out;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-header {
+    display: flex;
+    align-items: center;
+    padding: .5rem .75rem;
+    background-color: rgba(0,0,0,.1);
+    border-bottom: 1px solid #333;
+}
+
+.toast-header .bi {
+    margin-right: 0.5rem;
+}
+
+.toast-body {
+    padding: .75rem;
+}
+
+/* Toast Success/Error Colors */
+.toast.success .toast-header {
+    color: #198754; /* Bootstrap Success Green */
+}
+.toast.error .toast-header {
+    color: #dc3545; /* Bootstrap Danger Red */
+}
+
+/* --- SPLASH SCREEN STYLES --- */
+
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+#splash-screen.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.splash-logo {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #4CAF50;
+    z-index: 10;
+}
+
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.ring.one {
+    width: 200px;
+    height: 200px;
+    border-top-color: #00aaff;
+    border-bottom-color: #00aaff;
+    animation-name: rotate-one;
+    animation-duration: 2s;
+}
+
+.ring.two {
+    width: 250px;
+    height: 250px;
+    border-right-color: #4CAF50;
+    border-left-color: #4CAF50;
+    animation-name: rotate-two;
+    animation-duration: 2s;
+}
+
+.ring.three {
+    width: 300px;
+    height: 300px;
+    border-top-color: #00aaff;
+    border-left-color: #00aaff;
+    animation-name: rotate-three;
+    animation-duration: 3s;
+}
+
+@keyframes rotate-one {
+    from { transform: rotateX(50deg) rotateY(-30deg) rotateZ(0deg); }
+    to { transform: rotateX(50deg) rotateY(-30deg) rotateZ(360deg); }
+}
+
+@keyframes rotate-two {
+    from { transform: rotateX(30deg) rotateY(50deg) rotateZ(0deg); }
+    to { transform: rotateX(30deg) rotateY(50deg) rotateZ(360deg); }
+}
+
+@keyframes rotate-three {
+    from { transform: rotateX(70deg) rotateY(0deg) rotateZ(0deg); }
+    to { transform: rotateX(70deg) rotateY(0deg) rotateZ(-360deg); }
+}
+
+/* Style for the main content to fade in */
+#main-content {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+/* --- SPLASH SCREEN TIME DISPLAY --- */
+
+#splash-time {
+    position: absolute;
+    top: 35%; /* Position it above the center */
+    left: 50%;
+    transform: translateX(-50%);
+    color: #e0e0e0;
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    z-index: 11; /* Ensure it's above the logo */
+}
+/* --- DIGITAL CARD & DASHBOARD STYLES --- */
+
+.digital-card {
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+#pending-tasks-list .task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #333;
+    font-size: 0.9rem;
+}
+#pending-tasks-list .task-item:last-child {
+    border-bottom: none;
+}
+
+#tasks-table-body.list-group .list-group-item {
+    background-color: #1f1f1f;
+    border-color: #333;
+}
+#tasks-table-body.list-group .list-group-item:hover {
+    background-color: #2a2a2e;
+}
+
+.points-badge {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+#dash-profile-pic {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 2px solid #4CAF50;
+    border-radius: 50%; /* Added to ensure it's a circle */
+}
+#workers-table-body .worker-info {
+    display: flex;
+    align-items: center;
+}
+#workers-table-body .worker-info img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+/* --- NEW DIGITAL CIRCLE & CLOCK STYLES --- */
+
+.digital-clock {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #888;
+    letter-spacing: 1px;
+}
+
+.digital-circle-card {
+  border: 2px solid rgba(76, 175, 80, 0.3); 
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  max-width: 200px;
+  margin: 0 auto;
+  position: relative;
+  overflow: visible; /* ensure SVG is not cut off */
+  background: transparent; /* 🔥 remove dark fill */
+
+  /* ✅ soft pulsing glow */
+  animation: pulse-glow 3s infinite ease-in-out;
+}
+
+.digital-circle-card:hover {
+  border-color: #4CAF50;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+}
+
+.digital-circle-card .circle-svg {
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  top: -10%;
+  left: -10%;
+  transform: rotate(-90deg);
+  z-index: 0;
+}
+
+/* Faint static background ring */
+.digital-circle-card .circle-bg {
+  fill: none;
+  stroke: rgba(76, 175, 80, 0.25);
+  stroke-width: 12;
+}
+
+/* === Main glowing spinning arc === */
+.digital-circle-card .circle-progress {
+  fill: none;
+  stroke: #4CAF50;
+  stroke-width: 12;
+  stroke-linecap: round; /* ✅ rounded edges */
+  filter: drop-shadow(0 0 10px rgba(76, 255, 100, 0.8));
+              
+  transform-origin: 50% 50%;
+  animation: full-spin 6s linear infinite;
+
+  /* ✅ partial arc so rotation is visible */
+  stroke-dasharray: 314 628;
+  stroke-dashoffset: 0;
+}
+
+/* === Optional reverse arc === */
+.digital-circle-card .circle-progress.reverse {
+  stroke: #00ffaa; /* teal glow */
+  stroke-width: 8;
+  opacity: 0.6;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 170, 0.6));
+  animation: full-spin-reverse 10s linear infinite;
+  stroke-dasharray: 180 628;
+}
+
+/* Keep text/content above the SVG */
+.digital-circle-card .card-body {
+  position: relative;
+  z-index: 1;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.digital-circle-card h6 {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.digital-circle-card p {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+/* === Animations === */
+@keyframes full-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes full-spin-reverse {
+  0%   { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes pulse-glow {
+  0%   { box-shadow: 0 0 15px rgba(76, 175, 80, 0.3); }
+  50%  { box-shadow: 0 0 30px rgba(76, 255, 120, 0.7); }
+  100% { box-shadow: 0 0 15px rgba(76, 175, 80, 0.3); }
+}
+
+
+
+/* --- THIS IS THE FINAL FIX FOR MOBILE CONTENT --- */
+@media (max-width: 767.98px) {
+
+    main {
+        padding: 15px;
+    }
+
+    .chart-container,
+    .worker-card,
+    table,
+    .digital-card {
+        width: 100% !important;
+        max-width: 100%;
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .digital-circle-card {
+        max-width: 150px;
+    }
+
+    .digital-circle-card p {
+        font-size: 2rem;
+    }
+}
+/* --- ANIMATED DIGITAL CIRCLE STYLES --- */
