@@ -901,6 +901,11 @@ app.post('/api/tasks',authMiddleware, adminMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Error logging task' });
     }
 });
+// Root route for Render health check
+app.get("/", (req, res) => {
+  res.send("✅ SOT Track App is running on Render!");
+});
+
 
 
 // 4. Start the server
