@@ -15,7 +15,9 @@ const JWT_SECRET = 'your-super-secret-key-that-is-long-and-random';
 
 // 2. Setup Express App
 const app = express();
-const PORT = 3088;
+const PORT = process.env.PORT || 3088;
+
+
 app.use(express.json({ limit: '10mb' })); // Increased limit for profile pictures
 app.use(express.static('public'));
 
@@ -909,6 +911,7 @@ app.get("/", (req, res) => {
 
 
 // 4. Start the server
+
 server.listen(PORT, () => {
-    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
