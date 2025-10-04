@@ -36,5 +36,4 @@ const mongoose = require('mongoose');
 });
 
 
-const Worker = mongoose.model('Worker', workerSchema);
 module.exports = mongoose.model('Worker', workerSchema);

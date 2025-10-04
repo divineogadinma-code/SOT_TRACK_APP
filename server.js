@@ -2,7 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const http = require('http'); // ADDED: Node's built-in HTTP server
-const { WebSocketServer } = require('ws'); // ADDED: The WebSocket library
+const { WebSocketServer } = require('ws');
 const Worker = require('./models/Worker');
 const Task = require('./models/Task'); // Import our new Task model
 const AssignedTask = require('./models/AssignedTask');
@@ -12,34 +12,91 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Message = require('./models/Message');
 const JWT_SECRET = 'your-super-secret-key-that-is-long-and-random';
+const { authMiddleware, adminMiddleware } = require('./middleware/auth');
+const profileRoutes = require('./routes/profile');
+const WorkerProfile = require('./models/WorkerProfile');
+const taskRuleRoutes = require('./routes/taskRules');
+const { startScheduler } = require('./scheduler');
+
+
+
+
+
+
+
+
+
+
+// require the smart router
+const smartRouter = require('./routes/smart'); // adjust path if needed
+
+
 
 // 2. Setup Express App
 const app = express();
-const PORT = process.env.PORT || 3088;
+const PORT = process.env.PORT || 3094;
 
 
 app.use(express.json({ limit: '10mb' })); // Increased limit for profile pictures
 app.use(express.static('public'));
+app.use('/api/smart', smartRouter);
+app.use('/api/profile', profileRoutes);
+app.use('/api/task-rules', taskRuleRoutes);
 
 // Create an HTTP server from the Express app
 const server = http.createServer(app);
-
-// --- 3. Setup WebSocket Server ---
 const wss = new WebSocketServer({ server });
 
-// This function will send a message to all connected clients
+// --- WebSocket Client Store ---
+let clients = new Map();
+
+// WebSocket Connections
+wss.on('connection', (ws) => {
+  console.log('✅ Client connected to WebSocket');
+
+  ws.on('message', (msg) => {
+    try {
+      const data = JSON.parse(msg);
+
+      if (data.type === 'registerWorker' && data.workerId) {
+        clients.set(data.workerId, ws);
+        console.log(`Worker ${data.workerId} registered for WebSocket`);
+      }
+    } catch (err) {
+      console.error('WS parse error:', err);
+    }
+  });
+
+  ws.on('close', () => {
+    for (const [workerId, socket] of clients.entries()) {
+      if (socket === ws) clients.delete(workerId);
+    }
+    console.log('❌ Client disconnected');
+  });
+});
+
+// Broadcast to all
 const broadcast = (data) => {
-    wss.clients.forEach((client) => {
-        if (client.readyState === client.OPEN) {
-            client.send(JSON.stringify(data));
-        }
-    });
+  wss.clients.forEach((client) => {
+    if (client.readyState === client.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
 };
 
-wss.on('connection', (ws) => {
-    console.log('✅ Client connected to WebSocket');
-    ws.on('close', () => console.log('❌ Client disconnected'));
-});
+// Send to one worker
+const sendToWorker = (workerId, data) => {
+  const ws = clients.get(workerId);
+  if (ws && ws.readyState === ws.OPEN) {
+    ws.send(JSON.stringify(data));
+  }
+};
+
+app.locals.broadcast = broadcast;
+app.locals.sendToWorker = sendToWorker;
+
+
+
 
 
 // 3. Database Connection
@@ -48,30 +105,6 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('✅ MongoDB connected successfully!'))
     .catch(err => console.error('❌ MongoDB connection error:', err));
 
-    // MIDDLEWARE to verify JWT Token
-const authMiddleware = (req, res, next) => {
-    const token = req.headers['authorization']?.split(' ')[1]; // Expecting "Bearer TOKEN"
-
-    if (!token) {
-        return res.status(401).json({ message: 'Access denied. No token provided.' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.user = decoded; // Add user info (id, role) to the request object
-        next(); // Proceed to the next function
-    } catch (error) {
-        res.status(400).json({ message: 'Invalid token.' });
-    }
-};
-
-// Middleware to check if the user is an admin
-const adminMiddleware = (req, res, next) => {
-    if (req.user.role !== 'admin') {
-        return res.status(403).json({ message: 'Access denied. Admins only.' });
-    }
-    next();
-};                                    
 
 /*
 =============================================
@@ -79,6 +112,7 @@ const adminMiddleware = (req, res, next) => {
 =============================================
 
 */
+
 
 // POST: Admin resets all worker points to zero
 app.post('/api/workers/reset-all-points', authMiddleware, adminMiddleware, async (req, res) => {
@@ -776,6 +810,25 @@ app.get('/api/workers',authMiddleware, adminMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Error fetching workers' });
     }
 });
+// GET: current logged-in user's profile (works for admin or worker if present in Worker collection)
+app.get('/api/workers/me', authMiddleware, async (req, res) => {
+  try {
+    // req.user.id is provided by auth middleware (from the token)
+    const userId = req.user?.id;
+    if (!userId) return res.status(401).json({ message: 'No user id in token' });
+
+    const worker = await Worker.findById(userId);
+    if (!worker) {
+      // If not found in Worker collection, respond clearly so caller knows
+      return res.status(404).json({ message: 'User not found in workers collection', userId, role: req.user.role });
+    }
+    res.json(worker);
+  } catch (error) {
+    console.error('Error in /api/workers/me:', error);
+    res.status(500).json({ message: 'Error fetching worker' });
+  }
+});
+
 // ADD THIS ENTIRE BLOCK
 // GET: Fetch a SINGLE worker by their ID
 app.get('/api/workers/:id', authMiddleware,async (req, res) => {
@@ -872,6 +925,35 @@ app.post('/api/tasks',authMiddleware, adminMiddleware, async (req, res) => {
     try {
         const { workerId, taskName, points } = req.body;
 
+        const settings = await PointSetting.findOne({ key: 'main_settings' });
+    if (!settings) return res.status(500).json({ message: 'Point settings not found.' });
+
+    // === Enforce daily + monthly caps ===
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const dailyPoints = await Task.aggregate([
+      { $match: { workerId: new mongoose.Types.ObjectId(workerId), timestamp: { $gte: today } } },
+      { $group: { _id: null, total: { $sum: "$points" } } }
+    ]);
+
+    const monthlyPoints = await Task.aggregate([
+      { $match: { workerId: new mongoose.Types.ObjectId(workerId), timestamp: { $gte: startOfMonth } } },
+      { $group: { _id: null, total: { $sum: "$points" } } }
+    ]);
+
+    const totalToday = dailyPoints.length ? dailyPoints[0].total : 0;
+    const totalThisMonth = monthlyPoints.length ? monthlyPoints[0].total : 0;
+
+    if (totalToday + points > settings.dailyMaxPoints) {
+      return res.status(400).json({ message: `Exceeds daily max points (${settings.dailyMaxPoints})` });
+    }
+    if (totalThisMonth + points > settings.monthlyMaxPoints) {
+      return res.status(400).json({ message: `Exceeds monthly max points (${settings.monthlyMaxPoints})` });
+    }
+
         // 1. Create and save the new task record
         const newTask = new Task({
             workerId,
@@ -903,6 +985,54 @@ app.post('/api/tasks',authMiddleware, adminMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Error logging task' });
     }
 });
+// GET: Performance Analyzer Leaderboard
+app.get('/api/leaderboard/performance', authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    // Fetch workers excluding admins
+    const workers = await Worker.find({ role: 'worker' }).select('name points');
+
+    // Fetch their profiles for performance stats
+    const profiles = await WorkerProfile.find({ workerId: { $in: workers.map(w => w._id) } });
+
+    const results = workers.map(w => {
+      const profile = profiles.find(p => String(p.workerId) === String(w._id));
+
+      return {
+        workerId: w._id,
+        name: w.name,
+        points: w.points,
+        avgCompletionTime: profile ? profile.avgCompletionTime : null,
+        strengths: profile ? profile.strengths : [],
+        weaknesses: profile ? profile.weaknesses : [],
+        reliabilityScore: profile ? (
+          (Object.values(profile.completedTasks).reduce((a,b) => a+b, 0)) /
+          (Object.values(profile.failedTasks).reduce((a,b) => a+b, 0) + 1) // avoid divide by 0
+        ) : 0
+      };
+    });
+
+    // Rank
+    const mostReliable = [...results].sort((a,b) => b.reliabilityScore - a.reliabilityScore)[0];
+    const fastest = [...results].sort((a,b) => (a.avgCompletionTime || Infinity) - (b.avgCompletionTime || Infinity))[0];
+    const topPerformer = [...results].sort((a,b) => b.points - a.points)[0];
+
+    res.json({
+      leaderboard: results,
+      highlights: {
+        mostReliable,
+        fastest,
+        topPerformer
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching performance leaderboard:", error);
+    res.status(500).json({ message: "Error fetching performance leaderboard." });
+  }
+});
+
+startScheduler(app.locals.broadcast);
+
+
 // Root route for Render health check
 app.get("/", (req, res) => {
   res.send("✅ SOT Track App is running on Render!");

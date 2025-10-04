@@ -26,6 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const monthSelect = document.getElementById('month-select');
     const conversionResultDiv = document.getElementById('conversion-result');
     const resultText = document.getElementById('result-text');
+    const settingsForm = document.getElementById('settings-form');
+const dailyMaxInput = document.getElementById('daily-max-points');
+const monthlyMaxInput = document.getElementById('monthly-max-points');
+const conversionRateInput = document.getElementById('conversion-rate');
+const attendanceBonusInput = document.getElementById('attendance-bonus');
+const innovationBonusInput = document.getElementById('innovation-bonus');
+const eggMaxInput = document.getElementById('egg-max-points');
+const eggRateInput = document.getElementById('egg-rate');
 
     let pointSettings = {}; // To store settings like max points, bonus values, etc.
 
@@ -37,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchPointSettings(),
                 populateWorkerDropdowns()
             ]);
+            loadSettingsIntoForm();
         } catch (error) {
             showToast('Failed to load initial page data.', 'error');
         } finally {
@@ -90,6 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const pointsToAward = Math.round(workerCrates * pointsPerCrate);
+
+            // 🔒 Ensure it never exceeds the admin’s max
+    if (pointsToAward > pointSettings.eggCollectionMaxPoints) {
+      pointsToAward = pointSettings.eggCollectionMaxPoints;
+    }
             
             // This re-uses the existing 'log task' functionality
             const response = await fetch('/api/tasks', {
@@ -178,6 +192,52 @@ document.addEventListener('DOMContentLoaded', () => {
             hideLoader();
         }
     });
+    // Populate form with current settings
+const loadSettingsIntoForm = () => {
+  if (pointSettings) {
+    dailyMaxInput.value = pointSettings.dailyMaxPoints || 0;
+    monthlyMaxInput.value = pointSettings.monthlyMaxPoints || 0;
+    conversionRateInput.value = pointSettings.conversionRate || 7;
+    attendanceBonusInput.value = pointSettings.perfectAttendanceBonus || 0;
+    innovationBonusInput.value = pointSettings.innovationBonus || 0;
+    eggMaxInput.value = pointSettings.eggCollectionMaxPoints || 100;
+    
+  }
+};
+
+// Save new settings
+settingsForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  showLoader();
+  try {
+    const body = {
+      dailyMaxPoints: parseInt(dailyMaxInput.value, 10),
+      monthlyMaxPoints: parseInt(monthlyMaxInput.value, 10),
+      conversionRate: parseFloat(conversionRateInput.value),
+      perfectAttendanceBonus: parseInt(attendanceBonusInput.value, 10),
+      innovationBonus: parseInt(innovationBonusInput.value, 10),
+       eggCollectionMaxPoints: parseInt(eggMaxInput.value, 10)
+    };
+
+    const response = await fetch('/api/point-settings', {
+      method: 'PUT',
+      headers: authHeaders,
+      body: JSON.stringify(body)
+    });
+
+    if (!response.ok) throw new Error((await response.json()).message);
+
+    const result = await response.json();
+    pointSettings = result.settings; // update cache
+    showToast('Settings updated successfully!', 'success');
+  } catch (err) {
+    showToast(`Error: ${err.message}`, 'error');
+  } finally {
+    hideLoader();
+  }
+});
+
 
     initialize();
+    
 });
