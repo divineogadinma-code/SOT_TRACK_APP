@@ -17,6 +17,13 @@ const profileRoutes = require('./routes/profile');
 const WorkerProfile = require('./models/WorkerProfile');
 const taskRuleRoutes = require('./routes/taskRules');
 const { startScheduler } = require('./scheduler');
+const iotRoutes = require('./routes/iot');
+
+// server.js
+const iotAutoRoutes = require('./routes/iotRoutes');
+
+
+
 
 
 
@@ -34,7 +41,7 @@ const smartRouter = require('./routes/smart'); // adjust path if needed
 
 // 2. Setup Express App
 const app = express();
-const PORT = process.env.PORT || 3094;
+const PORT = process.env.PORT || 3031;
 
 
 app.use(express.json({ limit: '10mb' })); // Increased limit for profile pictures
@@ -42,6 +49,8 @@ app.use(express.static('public'));
 app.use('/api/smart', smartRouter);
 app.use('/api/profile', profileRoutes);
 app.use('/api/task-rules', taskRuleRoutes);
+app.use('/api/iot', iotRoutes);
+app.use('/api/iot', iotAutoRoutes);
 
 // Create an HTTP server from the Express app
 const server = http.createServer(app);

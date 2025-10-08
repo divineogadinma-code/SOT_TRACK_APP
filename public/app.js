@@ -116,18 +116,26 @@ document.addEventListener('DOMContentLoaded', () => {
         activityList.innerHTML = '';
         if (tasks.length > 0) {
             tasks.slice(0, 5).forEach(task => {
-                const activityItem = document.createElement('a');
-                activityItem.href = '#';
-                activityItem.className = 'list-group-item list-group-item-action';
-                activityItem.innerHTML = `
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">${task.taskName}</h6>
-                        <small>${new Date(task.timestamp).toLocaleDateString()}</small>
-                    </div>
-                    <small class="text-success fw-bold">+${task.points} Points</small>
-                `;
-                activityList.appendChild(activityItem);
-            });
+  const activityItem = document.createElement('a');
+  activityItem.href = '#';
+  activityItem.className = 'list-group-item list-group-item-action';
+
+  const isIoT = task.source && task.source.toLowerCase().includes('iot');
+  const sourceBadge = isIoT 
+    ? `<span class="badge bg-success ms-2"><i class="bi bi-cpu"></i> IoT</span>` 
+    : '';
+
+  activityItem.innerHTML = `
+    <div class="d-flex w-100 justify-content-between align-items-center">
+      <h6 class="mb-1">${task.taskName} ${sourceBadge}</h6>
+      <small>${new Date(task.timestamp).toLocaleDateString()}</small>
+    </div>
+    <small class="text-success fw-bold">+${task.points} Points</small>
+  `;
+  activityList.appendChild(activityItem);
+});
+
+            
         } else {
             activityList.innerHTML = '<p class="text-center text-muted">No recent activity.</p>';
         }

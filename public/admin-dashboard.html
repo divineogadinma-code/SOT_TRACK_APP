@@ -116,7 +116,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                
+            </div> <!-- ✅ row closes properly now -->
+            <div class="row">
                 <div class="col-lg-4 mb-4">
                     <div class="card digital-card h-100">
                         <div class="card-body text-center d-flex flex-column justify-content-center">
@@ -127,7 +129,31 @@
                     </div>
                 </div>
                 </div>
-            </div> <!-- ✅ row closes properly now -->
+            <!-- IoT Device Status Card -->
+<div class="card iot-status-card shadow-sm border-0">
+  <div class="card-body">
+    <h5 class="card-title mb-2">IoT Devices</h5>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="text-muted small">Connected Systems</span>
+      <button id="viewDevicesBtn" class="btn btn-sm btn-outline-primary">Manage</button>
+    </div>
+    <div class="d-flex justify-content-around text-center">
+      <div>
+        <h6 id="iot-total" class="mb-0 fw-bold">0</h6>
+        <small class="text-muted">Total</small>
+      </div>
+      <div>
+        <h6 id="iot-online" class="mb-0 text-success fw-bold">0</h6>
+        <small class="text-muted">Online</small>
+      </div>
+      <div>
+        <h6 id="iot-offline" class="mb-0 text-danger fw-bold">0</h6>
+        <small class="text-muted">Offline</small>
+      </div>
+    </div>
+  </div>
+</div>
+
 
             <!-- Your existing Worker Management Section -->
             <div class="mt-4">

@@ -284,6 +284,32 @@ document.addEventListener('DOMContentLoaded', () => {
             hideLoader();
         }
     });
+// === IoT Device Status ===
+async function loadIoTSummary() {
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch('/api/iot/summary', {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+    if (!res.ok) throw new Error('Failed to fetch IoT summary');
+
+    const data = await res.json();
+    document.getElementById('iot-total').textContent = data.total;
+    document.getElementById('iot-online').textContent = data.online;
+    document.getElementById('iot-offline').textContent = data.offline;
+  } catch (err) {
+    console.error("IoT summary error:", err);
+  }
+}
+
+// Initial load + refresh every 30s
+loadIoTSummary();
+setInterval(loadIoTSummary, 30000);
+
+// Manage button (link to device list page, coming soon)
+document.getElementById('viewDevicesBtn').addEventListener('click', () => {
+  window.location.href = '/admin/iot-dashboard.html'; // placeholder page for now
+}); 
 
     // --- Live Clock Function ---
     const updateClock = () => {

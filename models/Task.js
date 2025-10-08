@@ -19,7 +19,12 @@ const taskSchema = new mongoose.Schema({
     timestamp: {
         type: Date,
         default: Date.now
-    }
+    },
+source: {
+  type: String,
+  default: 'manual' // other values can be 'IoT Auto-Approval'
+}
+
 });
 
 module.exports = mongoose.model('Task', taskSchema);

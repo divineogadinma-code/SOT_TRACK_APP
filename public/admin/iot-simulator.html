@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOT Track – IoT Simulator</title>
+
+  <!-- Styles & Libraries -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="sidebar-container"></div>
+  <div id="loader-overlay" class="loader-overlay"></div>
+  <div id="toast-container" class="toast-container"></div>
+
+  <main class="with-nav container-fluid pt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="display-5 fw-bold">IoT Simulator</h1>
+        <p class="text-body-secondary">Simulate connected device signals and auto-approvals.</p>
+      </div>
+      <div class="d-flex align-items-center">
+        <div class="digital-clock me-3" id="live-clock">00:00 PM</div>
+        <img src="https://placehold.co/60x60/1f1f1f/e0e0e0?text=SOT" alt="Profile" class="rounded-circle" id="dash-profile-pic">
+      </div>
+    </div>
+
+    <!-- IoT Simulator Panel -->
+    <div class="card digital-card mb-4">
+      <div class="card-body">
+        <h3 class="card-title mb-3"><i class="bi bi-cpu me-2"></i>Simulate IoT Device</h3>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Device ID</label>
+            <input type="text" id="deviceId" class="form-control" placeholder="e.g. sensor-001">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Worker Name</label>
+            <input type="text" id="workerName" class="form-control" placeholder="e.g. John Doe">
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+          <button id="simulateBtn" class="btn btn-success me-2">
+            <i class="bi bi-gear-wide-connected"></i> Send Auto-Approval Signal
+          </button>
+          <button id="clearLogsBtn" class="btn btn-outline-secondary">
+            <i class="bi bi-trash"></i> Clear Logs
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logs -->
+    <div class="card digital-card">
+      <div class="card-body">
+        <h3 class="card-title"><i class="bi bi-activity me-2"></i>IoT Simulator Logs</h3>
+        <div id="simulator-logs" class="small text-muted mt-3">
+          <p>No activity yet.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="bottom-nav-container"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../ui.js"></script>
+  <script src="../nav.js"></script>
+  <script src="../ws-client.js"></script>
+  <script src="iot-simulator.js"></script>
+</body>
+</html>

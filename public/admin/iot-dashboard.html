@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOT Track - IoT Dashboard</title>
+
+  <!-- PWA & Favicon -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1f1f1f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%231f1f1f'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='40' font-weight='bold' fill='%234CAF50' font-family='sans-serif'%3ESOT%3C/text%3E%3C/svg%3E">
+
+  <!-- Stylesheets -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- UI Components -->
+  <div id="sidebar-container"></div>
+  <div id="loader-overlay" class="loader-overlay"></div>
+  <div id="toast-container" class="toast-container"></div>
+
+  <main class="with-nav">
+    <div class="container-fluid pt-4">
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h1 class="display-5 fw-bold">IoT Dashboard</h1>
+          <p class="text-body-secondary">Monitor connected sensors and devices in real time.</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <div class="digital-clock me-3" id="live-clock">00:00 PM</div>
+          <img src="https://placehold.co/60x60/1f1f1f/e0e0e0?text=SOT" alt="Profile" class="rounded-circle" id="dash-profile-pic">
+        </div>
+      </div>
+
+      <!-- IoT Stats Cards -->
+      <div class="row">
+        <div class="col-lg-3 mb-4">
+          <div class="card digital-card text-center">
+            <div class="card-body">
+              <h6 class="text-uppercase text-body-secondary">Connected Devices</h6>
+              <p class="display-4 fw-bold" id="connected-devices-count">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-4">
+          <div class="card digital-card text-center">
+            <div class="card-body">
+              <h6 class="text-uppercase text-body-secondary">Active Sensors</h6>
+              <p class="display-4 fw-bold" id="active-sensors-count">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-4">
+          <div class="card digital-card text-center">
+            <div class="card-body">
+              <h6 class="text-uppercase text-body-secondary">Last Signal</h6>
+              <p class="fw-bold" id="last-signal-time">--:--</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-4">
+          <div class="card digital-card text-center">
+            <div class="card-body">
+              <h6 class="text-uppercase text-body-secondary">Connection Health</h6>
+              <p class="fw-bold text-success" id="connection-health">Good</p>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- Recent IoT Events -->
+<div class="card digital-card mt-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="card-title mb-0">
+        <i class="bi bi-broadcast me-2"></i>Recent IoT Events
+      </h4>
+      <button class="btn btn-sm btn-outline-light" id="clear-events-btn">
+        <i class="bi bi-x-circle"></i> Clear
+      </button>
+    </div>
+    <div id="recent-events" class="small text-body-secondary" style="max-height: 300px; overflow-y: auto;">
+      <p>No IoT events recorded yet.</p>
+    </div>
+  </div>
+</div>
+      <!-- Recent Signals Section -->
+      <div class="card digital-card mt-4">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="card-title mb-0"><i class="bi bi-activity me-2"></i>Recent IoT Signals</h4>
+            <button class="btn btn-sm btn-outline-light" id="clear-signals-btn"><i class="bi bi-x-circle"></i> Clear</button>
+          </div>
+          <div id="recent-signals" class="small text-body-secondary">
+            <p>No recent IoT signals received.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="card mt-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5>IoT Auto-Approvals</h5>
+    <button id="clear-approvals-btn" class="btn btn-danger btn-sm">Clear</button>
+  </div>
+  <div class="card-body">
+    <h2 id="approved-tasks-count" class="fw-bold text-success mb-3">0</h2>
+    <div id="auto-approval-log">
+      <p>No auto-approvals yet.</p>
+    </div>
+  </div>
+</div>
+
+  </main>
+
+  <div id="bottom-nav-container"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../ui.js"></script>
+  <script src="../nav.js"></script>
+  <script src="../admin.js"></script>
+  <script src="../ws-client.js"></script>
+  <script src="iot-dashboard.js"></script>
+</body>
+</html>

@@ -151,19 +151,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tasksContainer.addEventListener('click', handleSubmitTask);
 
-    // Listen for real-time updates
     document.addEventListener('ws_message', (e) => {
-        if (e.detail.type === 'NEW_TASK' && e.detail.workerId === userId) {
-            showToast('You have received a new task!', 'success');
-            logActivity('received_new_task', { workerId: userId });
-            fetchAssignedTasks();
-        }
-        if (e.detail.type === 'TASK_REJECTED' && e.detail.workerId === userId) {
-            showToast('A task was returned for review.', 'error');
-            logActivity('task_rejected_notice', { workerId: userId });
-            fetchAssignedTasks();
-        }
-    });
+    const { type, workerId, taskId } = e.detail;
+
+    if (workerId !== userId) return;
+
+    if (type === 'NEW_TASK') {
+        showToast('You have received a new task!', 'success');
+        logActivity('received_new_task', { workerId: userId });
+        fetchAssignedTasks();
+    }
+
+    if (type === 'TASK_REJECTED') {
+        showToast('A task was returned for review.', 'error');
+        logActivity('task_rejected_notice', { workerId: userId });
+        fetchAssignedTasks();
+    }
+
+    // 🧠 NEW: IoT Auto-Approved Task Handler
+    if (type === 'TASK_COMPLETED') {
+        showToast('✅ IoT auto-approved one of your tasks!', 'success');
+        logActivity('task_auto_approved', { workerId: userId, taskId });
+        fetchAssignedTasks(); // refresh assigned list instantly
+    }
+});
+
 
     fetchAssignedTasks();
 });
