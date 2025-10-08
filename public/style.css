@@ -903,3 +903,23 @@ main.with-nav {
   margin-right: 3px;
 }
 
+/* --- FIX FOR CHROME ANDROID CLIPPING BUG --- */
+@supports (-webkit-overflow-scrolling: touch) {
+  .digital-card,
+  .digital-circle-card,
+  .card.digital-card {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0); /* Force GPU layer redraw */
+    will-change: transform;
+  }
+
+  /* Ensure Chrome doesn’t clip the last row of cards */
+  .row:last-child {
+    padding-bottom: 50px;
+  }
+
+  /* Give cards slightly more space to breathe on Chrome */
+  .digital-card.h-100 {
+    min-height: 250px;
+  }
+}

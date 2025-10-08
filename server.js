@@ -41,7 +41,7 @@ const smartRouter = require('./routes/smart'); // adjust path if needed
 
 // 2. Setup Express App
 const app = express();
-const PORT = process.env.PORT || 3031;
+const PORT = process.env.PORT || 3030;
 
 
 app.use(express.json({ limit: '10mb' })); // Increased limit for profile pictures
