@@ -21,6 +21,12 @@ const iotRoutes = require('./routes/iot');
 
 // server.js
 const iotAutoRoutes = require('./routes/iotRoutes');
+// near other route imports
+const sotAIRoutes = require('./routes/sotAI');
+
+// later where you mount routes:
+
+
 
 
 
@@ -41,7 +47,7 @@ const smartRouter = require('./routes/smart'); // adjust path if needed
 
 // 2. Setup Express App
 const app = express();
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 3410;
 
 
 app.use(express.json({ limit: '10mb' })); // Increased limit for profile pictures
@@ -51,6 +57,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/task-rules', taskRuleRoutes);
 app.use('/api/iot', iotRoutes);
 app.use('/api/iot', iotAutoRoutes);
+app.use('/api/sot-ai', sotAIRoutes);
 
 // Create an HTTP server from the Express app
 const server = http.createServer(app);
